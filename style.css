@@ -1,0 +1,285 @@
+:root {
+  --primary-color: #2c3e50;
+  --accent-color: #e74c3c;
+  --bg-color: #87CEEB;
+  --mole-color: #8B4513;
+  --dirt-color: #654321;
+  --grass-color: #90EE90;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background: var(--bg-color);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-container {
+  background: transparent;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 900px;
+}
+
+.score-board {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #2c3e50;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border: 3px solid #2c3e50;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--grass-color);
+  padding: 3rem;
+  border-radius: 1rem;
+  border: 4px solid #458B00;
+}
+
+.hole {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+  overflow: hidden;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="%23444" d="M18 2c-2.2 0-4 1.8-4 4v4H8c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2h-2V6c0-1.1.9-2 2-2s2 .9 2 2v7h2V6c0-2.2-1.8-4-4-4z"/></svg>') 16 32, auto;
+  background: #3D2817;
+  border-radius: 50%;
+  border: 6px solid #2C1810;
+  transform: scale(1.2);
+}
+
+.dirt {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40%;
+  background: var(--dirt-color);
+  border-radius: 0 0 50% 50%;
+}
+
+.mole {
+  width: 90%;
+  height: 90%;
+  position: absolute;
+  left: 5%;
+  bottom: -100%;
+  transition: bottom 0.1s ease-in;
+}
+
+.mole-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: var(--mole-color);
+  border-radius: 50% 50% 45% 45%;
+  overflow: hidden;
+  border: 4px solid #5C2E1A;
+}
+
+/* Mole features */
+.mole-face::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    /* Eyes */
+    radial-gradient(circle at 30% 40%, black 0%, black 10%, transparent 11%),
+    radial-gradient(circle at 70% 40%, black 0%, black 10%, transparent 11%),
+    /* Eye shine */
+    radial-gradient(circle at 28% 38%, white 0%, white 4%, transparent 5%),
+    radial-gradient(circle at 68% 38%, white 0%, white 4%, transparent 5%),
+    /* Nose */
+    radial-gradient(ellipse at 50% 60%, #4A2410 0%, #4A2410 18%, transparent 19%);
+}
+
+/* Mole mouth */
+.mole-face::after {
+  content: '';
+  position: absolute;
+  width: 40%;
+  height: 12%;
+  background: #4A2410;
+  border-radius: 50%;
+  bottom: 20%;
+  left: 30%;
+  transform: rotate(5deg);
+}
+
+/* Cheeks */
+.mole-face .cheeks {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 50%, #A0522D 0%, #A0522D 15%, transparent 16%),
+    radial-gradient(circle at 80% 50%, #A0522D 0%, #A0522D 15%, transparent 16%);
+  opacity: 0.6;
+}
+
+.hole.up .mole {
+  bottom: 0;
+  animation: pop-up 0.3s ease-out;
+}
+
+.hole.bonked .mole {
+  transform: scale(0.9);
+  animation: bonk 0.2s ease-in;
+}
+
+/* Hammer cursor animation */
+.hole.bonked {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="%23444" d="M18 2c-2.2 0-4 1.8-4 4v4H8c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6c1.1 0 2-.9 2-2v-6c0-1.1-.9-2-2-2h-2V6c0-1.1.9-2 2-2s2 .9 2 2v7h2V6c0-2.2-1.8-4-4-4z"/></svg>') 16 32, auto;
+  animation: hammer-hit 0.2s ease-in;
+}
+
+.start-button {
+  display: block;
+  margin: 2rem auto 0;
+  padding: 1.5rem 3rem;
+  font-size: 1.5rem;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  border: 4px solid #c0392b;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 0 6px 0 #c0392b;
+}
+
+.start-button:hover {
+  transform: translateY(2px);
+  box-shadow: 0 4px 0 #c0392b;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.visible {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  padding: 3rem;
+  border-radius: 1rem;
+  text-align: center;
+  border: 4px solid #2c3e50;
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.modal-content h2 {
+  color: var(--accent-color);
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-content button {
+  margin-top: 1.5rem;
+  padding: 1rem 2rem;
+  background: var(--accent-color);
+  color: white;
+  border: 3px solid #c0392b;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 0 #c0392b;
+  font-size: 1.2rem;
+}
+
+.modal-content button:hover {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #c0392b;
+}
+
+@keyframes pop-up {
+  0% { transform: translateY(100%) scale(1.2); }
+  60% { transform: translateY(-10%) scale(1.2); }
+  100% { transform: translateY(0) scale(1.2); }
+}
+
+@keyframes bonk {
+  0% { transform: scale(1.2); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1.2); }
+}
+
+@keyframes hammer-hit {
+  0% { transform: rotate(0deg) scale(1.2); }
+  50% { transform: rotate(-20deg) scale(1.2); }
+  100% { transform: rotate(0deg) scale(1.2); }
+}
+.time-options {
+  margin: 10px 0;
+}
+
+.time-button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+.time-button:hover {
+  background-color: #45a049;
+}
+.difficulty-options {
+  margin: 10px 0;
+}
+
+.difficulty-button {
+  margin: 0 5px;
+  padding: 5px 15px;
+  border-radius: 5px;
+  border: 1px solid #4CAF50;
+  background-color: white;
+  color: #4CAF50;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.difficulty-button:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.difficulty-button.active {
+  background-color: #4CAF50;
+  color: white;
+}
